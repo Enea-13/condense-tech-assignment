@@ -31,6 +31,7 @@ function phoneNumberExtractor() {
         "None of my 32 friends has a phone. One of them gave me the number 123-123123 but it isn't valid",
         "Phone numbers cannot have letters. Numbers like (800) STAR-121212 are not valid",
         "Every country has its own rules for phone numbers. Even a number like (1) 1-2 can be a valid phone number",
+        "Should this ( 1) 1- 22 be a valid phone number?",
     ];
     var phoneRegex = /\(\d{1,3}\) [0-9-]+/g;
     // display test results on console
