@@ -34,10 +34,13 @@ export default function Home() {
   }
 
   return (
-    <main className={styles.main}>
-      <div>
-        <h1>Movies</h1>
-        <Link href="/favorites">View Favorites</Link>
+    <main>
+      <div className={styles.moviesContainer}>
+        <h1 className={styles.moviesTitle}>Movies</h1>
+        <Link href="/favorites" className={styles.favoritesLink}>
+          Favorites
+          <span className={styles.arrowIcon}>&#9658;</span>
+        </Link>
       </div>
 
       <div>

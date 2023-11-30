@@ -15,6 +15,7 @@ export const useFavorites = () => {
     getFavorites();
   }, [getFavorites]);
 
+  // ! normally I would use a unique ID to check if movie is already in favorites
   const addFavoriteClick = (movie: Movie): void => {
     // if movie is already in favorites, do not add it
     if (favorites.some((favorite) => favorite.Title === movie.Title)) {
