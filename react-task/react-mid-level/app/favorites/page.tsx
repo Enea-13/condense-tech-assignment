@@ -1,34 +1,11 @@
 "use client";
 
-import Movies, { Movie } from "@/components/MoviesList";
+import DisplayMovie from "@/components/Movie";
+import { useFavorites } from "@/hooks/useFavorites";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
 
 const FavoritesPage = (): JSX.Element => {
-  const [favorites, setFavorites] = useState<Movie[]>([]);
-
-  //TODO: refactor. Duplicate code
-  const getFavorites = useCallback(() => {
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")!) || [];
-    setFavorites(savedFavorites);
-  }, []);
-
-  useEffect(() => {
-    getFavorites();
-  }, [getFavorites]);
-
-  //TODO: move handler?
-  const handleRemoveFavorite = (movie: Movie): void => {
-    const index = favorites.indexOf(movie);
-    setFavorites((prevState) => {
-      const newFavorites = [
-        ...prevState.slice(0, index),
-        ...prevState.slice(index + 1),
-      ];
-      localStorage.setItem("favorites", JSON.stringify(newFavorites));
-      return newFavorites;
-    });
-  };
+  const { favorites, removeFavorite } = useFavorites();
 
   return (
     <div>
@@ -36,7 +13,16 @@ const FavoritesPage = (): JSX.Element => {
         <h1>Favorites</h1>
         <Link href="/">Back</Link>
       </div>
-      <Movies movies={favorites} onFavoriteClick={handleRemoveFavorite} />
+      <div>
+        {favorites.map((movie, index) => (
+          <DisplayMovie
+            key={index}
+            onFavoriteClick={removeFavorite}
+            movie={movie}
+            icon="❌"
+          />
+        ))}
+      </div>
     </div>
   );
 };

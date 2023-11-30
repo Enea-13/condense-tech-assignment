@@ -1,5 +1,8 @@
-import Movies, { Movie } from "@/components/MoviesList";
+"use client";
+
+import DisplayMovie, { type Movie } from "@/components/Movie";
 import Notification from "@/components/Notification";
+import { useFavorites } from "@/hooks/useFavorites";
 import axios from "axios";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
@@ -10,20 +13,13 @@ const moviesApiUrl =
 
 export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [favorites, setFavorites] = useState<Movie[]>([]);
-
-  const getFavorites = useCallback(() => {
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")!) || [];
-    setFavorites(savedFavorites);
-  }, []);
-
-  useEffect(() => {
-    getFavorites();
-  }, [getFavorites]);
+  const { favorites, removeFavorite, addFavoriteClick } = useFavorites();
 
   const getMovies = useCallback(() => {
     axios.get(moviesApiUrl).then((response) => {
-      setMovies(response.data);
+      const allMovies = response.data;
+
+      setMovies(allMovies);
     });
   }, []);
 
@@ -31,43 +27,36 @@ export default function Home() {
     getMovies();
   }, [getMovies]);
 
-  //TODO: use add or remove favorite, depending on the use
-  const handleFavoriteClick = (movie: Movie): void => {
-    setFavorites((prevState) => {
-      const newFavorites = [...prevState, movie];
-      localStorage.setItem("favorites", JSON.stringify(newFavorites));
-      return newFavorites;
-    });
-    //TODO:set notification
-  };
+  const isFavorite = (movie: Movie) =>
+    favorites.some((favorite) => favorite.Title === movie.Title);
 
-  const addFavoriteClick = (movie: Movie): void => {
-    setFavorites((prevState) => {
-      const newFavorites = [...prevState, movie];
-      localStorage.setItem("favorites", JSON.stringify(newFavorites));
-      return newFavorites;
-    });
-  };
+  if (movies.length === 0 || favorites.length === 0) {
+    return <p>Loading...</p>;
+  }
 
-  const removeFavorite = (movie: Movie): void => {
-    const index = favorites.indexOf(movie);
-    setFavorites((prevState) => {
-      const newFavorites = [
-        ...prevState.slice(0, index),
-        ...prevState.slice(index + 1),
-      ];
-      localStorage.setItem("favorites", JSON.stringify(newFavorites));
-      return newFavorites;
-    });
-  };
-
+  // TODO: how do i remove prop drilling onFavoriteClick?
   return (
     <main className={styles.main}>
       <div>
         <h1>Movies</h1>
         <Link href="/favorites">View Favorites</Link>
       </div>
-      <Movies movies={movies} onFavoriteClick={handleFavoriteClick} />
+
+      <div>
+        {movies.map((movie, index) => {
+          console.log(isFavorite(movie));
+          return (
+            <DisplayMovie
+              key={index}
+              onFavoriteClick={
+                isFavorite(movie) ? removeFavorite : addFavoriteClick
+              }
+              movie={movie}
+              icon={isFavorite(movie) ? "❌" : "⭐️"}
+            />
+          );
+        })}
+      </div>
 
       <Notification />
     </main>
