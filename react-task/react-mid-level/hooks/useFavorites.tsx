@@ -26,7 +26,7 @@ export const useFavorites = () => {
       return newFavorites;
     });
 
-    addNotification(`Added ${movie.Title} to favorites`);
+    addNotification(`New Favourite Movie!`);
   };
 
   const removeFavorite = (movie: Movie): void => {
@@ -42,7 +42,7 @@ export const useFavorites = () => {
       return newFavorites;
     });
 
-    addNotification(`Removed ${movie.Title} from favorites`);
+    addNotification(`Removed from Favourites`);
   };
 
   return {

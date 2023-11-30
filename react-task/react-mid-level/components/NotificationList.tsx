@@ -6,7 +6,7 @@ const NotificationList = () => {
   const { notifications } = useNotification();
 
   return (
-    <div>
+    <div className="notifications-container">
       {notifications.map((notification) => (
         <Notification
           key={notification.id}

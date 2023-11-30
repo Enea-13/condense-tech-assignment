@@ -36,10 +36,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
       id: Date.now(),
       message,
     };
-    setNotifications((prevNotifications) => [
-      ...prevNotifications,
-      newNotification,
-    ]);
+    setNotifications((prevState) => [newNotification, ...prevState]);
 
     // Automatically remove the notification after 5 seconds
     setTimeout(() => {
@@ -48,8 +45,8 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const removeNotification = (id: number) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.filter((notification) => notification.id !== id)
+    setNotifications((prevState) =>
+      prevState.filter((notification) => notification.id !== id)
     );
   };
 
@@ -76,9 +73,11 @@ export const Notification: React.FC<Notification> = ({ id, message }) => {
   };
 
   return (
-    <div>
+    <div className="notification">
       <p>{message}</p>
-      <button onClick={handleRemove}>Dismiss</button>
+      <button className="close-button" onClick={handleRemove}>
+        x
+      </button>
     </div>
   );
 };
