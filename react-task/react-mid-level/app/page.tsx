@@ -1,7 +1,6 @@
 "use client";
 
 import DisplayMovie, { type Movie } from "@/components/Movie";
-import Notification from "@/components/Notification";
 import { useFavorites } from "@/hooks/useFavorites";
 import axios from "axios";
 import Link from "next/link";
@@ -30,11 +29,10 @@ export default function Home() {
   const isFavorite = (movie: Movie) =>
     favorites.some((favorite) => favorite.Title === movie.Title);
 
-  if (movies.length === 0 || favorites.length === 0) {
+  if (movies.length === 0) {
     return <p>Loading...</p>;
   }
 
-  // TODO: how do i remove prop drilling onFavoriteClick?
   return (
     <main className={styles.main}>
       <div>
@@ -44,7 +42,6 @@ export default function Home() {
 
       <div>
         {movies.map((movie, index) => {
-          console.log(isFavorite(movie));
           return (
             <DisplayMovie
               key={index}
@@ -57,8 +54,6 @@ export default function Home() {
           );
         })}
       </div>
-
-      <Notification />
     </main>
   );
 }

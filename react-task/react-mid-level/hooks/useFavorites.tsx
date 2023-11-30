@@ -1,8 +1,10 @@
 import { type Movie } from "@/components/Movie";
+import { useNotification } from "@/context/Notification";
 import { useCallback, useEffect, useState } from "react";
 
 export const useFavorites = () => {
   const [favorites, setFavorites] = useState<Movie[]>([]);
+  const { addNotification } = useNotification();
 
   const getFavorites = useCallback(() => {
     const savedFavorites = JSON.parse(localStorage.getItem("favorites")!) || [];
@@ -14,7 +16,7 @@ export const useFavorites = () => {
   }, [getFavorites]);
 
   const addFavoriteClick = (movie: Movie): void => {
-    // if movie is already in favorites return
+    // if movie is already in favorites, do not add it
     if (favorites.some((favorite) => favorite.Title === movie.Title)) {
       return;
     }
@@ -23,12 +25,14 @@ export const useFavorites = () => {
       localStorage.setItem("favorites", JSON.stringify(newFavorites));
       return newFavorites;
     });
-    //TODO:set notification("Added to favorites")
-    alert("New movie added!");
+
+    addNotification(`Added ${movie.Title} to favorites`);
   };
 
   const removeFavorite = (movie: Movie): void => {
-    const index = favorites.indexOf(movie);
+    const index = favorites.findIndex(
+      (favorite) => favorite.Title === movie.Title
+    );
     setFavorites((prevState) => {
       const newFavorites = [
         ...prevState.slice(0, index),
@@ -37,8 +41,8 @@ export const useFavorites = () => {
       localStorage.setItem("favorites", JSON.stringify(newFavorites));
       return newFavorites;
     });
-    //TODO:set notification("Removed from favorites")
-    alert("Movie removed!");
+
+    addNotification(`Removed ${movie.Title} from favorites`);
   };
 
   return {
