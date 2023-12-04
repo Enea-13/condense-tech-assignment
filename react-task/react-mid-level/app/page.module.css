@@ -14,7 +14,7 @@
   width: 640px;
 }
 
-.moviesTitle {
+.headersTitle {
   font-weight: 700;
   font-size: 55px;
   text-transform: uppercase;
@@ -30,11 +30,6 @@
   text-decoration: none;
 }
 
-.arrowIcon {
-  width: 114px;
-  height: 20px;
-}
-
 .moviesList {
   width: 640px;
   height: 480px;
@@ -42,6 +37,40 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-
   max-width: 100%;
+}
+
+/* Responsive styles for screens up to 640px wide */
+@media (max-width: 640px) {
+  .header {
+    width: 100%;
+  }
+
+  .headersTitle {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+
+  .favoritesLink {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+}
+
+/* Additional responsive styles for screens up to 480px wide */
+@media (max-width: 480px) {
+  .header {
+    margin: 0 10px;
+  }
+
+  .headersTitle {
+    font-size: 35px;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+
+  .favoritesLink {
+    margin-right: 5px;
+    margin-left: 5px;
+  }
 }

@@ -14,7 +14,7 @@ const FavoritesPage = (): JSX.Element => {
         <Link className={styles.favoritesLink} href="/">
           ⬅ Back
         </Link>
-        <h1 className={styles.moviesTitle}>Favorites</h1>
+        <h1 className={styles.headersTitle}>Favorites</h1>
       </div>
 
       <div className={styles.moviesList}>

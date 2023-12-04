@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.header}>
-        <h1 className={styles.moviesTitle}>Movies</h1>
+        <h1 className={styles.headersTitle}>Movies</h1>
         <Link className={styles.favoritesLink} href="/favorites">
           Favorites ➡
         </Link>
