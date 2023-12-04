@@ -1,4 +1,4 @@
-import { type Movie } from "@/components/Movie";
+import { type Movie } from "@/components/Movie/Movie";
 import { useNotification } from "@/context/Notification";
 import { useCallback, useEffect, useState } from "react";
 

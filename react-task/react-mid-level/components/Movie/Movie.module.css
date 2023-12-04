@@ -1,0 +1,55 @@
+.listItem {
+  max-width: 100%;
+  max-height: 100%;
+  background: #ffffff;
+  box-shadow: inset -4px 0px 0px #b0c0c8;
+  border-radius: 3px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.description {
+  font-weight: 400;
+  font-size: 10px;
+}
+
+.movieHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.movieTitle {
+  font-weight: 700;
+  line-height: 15px;
+  font-size: 20px;
+}
+
+/* Rectangle */
+.moviePoster {
+  border-radius: 6px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Star */
+.favoriteButton {
+  background: none;
+  border: none;
+  font-size: 25px; /* Adjust the size as needed */
+  cursor: pointer;
+  padding: 5px 15px
+}
+
+.goldStar {
+  color: gold;
+}
+
+.greyStar {
+  color: #b0c0c8;
+}

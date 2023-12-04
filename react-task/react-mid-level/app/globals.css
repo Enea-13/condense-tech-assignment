@@ -1,3 +1,9 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #fafafa;
+}
+
 /* Notification styles */
 .notifications-container {
   position: fixed;
@@ -32,3 +38,4 @@
   top: -20px;
   right: -15px;
 }
+/* End of Notification styles*/

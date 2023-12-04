@@ -1,6 +1,6 @@
 "use client";
 
-import DisplayMovie, { type Movie } from "@/components/Movie";
+import DisplayMovie, { type Movie } from "@/components/Movie/Movie";
 import { useFavorites } from "@/hooks/useFavorites";
 import axios from "axios";
 import Link from "next/link";
@@ -34,16 +34,15 @@ export default function Home() {
   }
 
   return (
-    <main>
-      <div className={styles.moviesContainer}>
+    <main className={styles.main}>
+      <div className={styles.header}>
         <h1 className={styles.moviesTitle}>Movies</h1>
-        <Link href="/favorites" className={styles.favoritesLink}>
-          Favorites
-          <span className={styles.arrowIcon}>&#9658;</span>
+        <Link className={styles.favoritesLink} href="/favorites">
+          Favorites ➡
         </Link>
       </div>
 
-      <div>
+      <div className={styles.moviesList}>
         {movies.map((movie, index) => {
           return (
             <DisplayMovie
@@ -52,7 +51,7 @@ export default function Home() {
                 isFavorite(movie) ? removeFavorite : addFavoriteClick
               }
               movie={movie}
-              icon={isFavorite(movie) ? "❌" : "⭐️"}
+              isFavorite={isFavorite(movie)}
             />
           );
         })}
