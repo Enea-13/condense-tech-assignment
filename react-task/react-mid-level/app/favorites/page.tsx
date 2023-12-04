@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import DisplayMovie from "@/components/Movie/Movie";
 import { useFavorites } from "@/hooks/useFavorites";
 import Link from "next/link";
@@ -17,16 +18,20 @@ const FavoritesPage = (): JSX.Element => {
         <h1 className={styles.headersTitle}>Favorites</h1>
       </div>
 
-      <div className={styles.moviesList}>
-        {favorites.map((movie, index) => (
-          <DisplayMovie
-            key={movie.id}
-            onFavoriteClick={removeFavorite}
-            movie={movie}
-            isFavorite={true}
-          />
-        ))}
-      </div>
+      {!favorites ? (
+        <Loading />
+      ) : (
+        <div className={styles.moviesList}>
+          {favorites.map((movie, index) => (
+            <DisplayMovie
+              key={movie.id}
+              onFavoriteClick={removeFavorite}
+              movie={movie}
+              isFavorite={true}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

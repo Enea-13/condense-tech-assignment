@@ -1,15 +1,10 @@
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
-}
-
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  min-height: 100vh;
+  padding-bottom: 35rem;
 }
 
 .header {

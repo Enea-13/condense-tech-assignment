@@ -81,4 +81,8 @@
   .movieTitle {
     font-size: 16px;
   }
+
+  .description {
+    display: none;
+  }
 }

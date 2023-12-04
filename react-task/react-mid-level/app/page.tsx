@@ -1,41 +1,33 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import DisplayMovie, { type Movie } from "@/components/Movie/Movie";
+import Pagination from "@/components/Pagination/Pagination";
 import { useFavorites } from "@/hooks/useFavorites";
-import axios from "axios";
+import { useMovies } from "@/hooks/useMovies";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
 import styles from "./page.module.css";
 
-// const moviesApiUrl =
-//   "https://my-json-server.typicode.com/horizon-code-academy/fake-movies-api/movies";
-const moviesApiUrl = "https://mttlioitimpeuzlwsgql.supabase.co/rest/v1/movies";
-const apiKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10dGxpb2l0aW1wZXV6bHdzZ3FsIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE0MjM3MDAsImV4cCI6MjAwNjk5OTcwMH0.yEpNXeO-cwzp_tBNeITxr2RRytwbcVnMlarJs0cpNYY";
+type SearchParamsProps = {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+};
 
-export default function Home() {
-  const [movies, setMovies] = useState<Movie[]>([]);
+export default function Home({ searchParams }: SearchParamsProps) {
   const { favorites, removeFavorite, addFavoriteClick } = useFavorites();
+  const { movies } = useMovies();
 
-  const getMovies = useCallback(() => {
-    axios
-      .get(moviesApiUrl, { headers: { apikey: apiKey } })
-      .then((response) => {
-        const allMovies = response.data;
-        setMovies(allMovies);
-      });
-  }, []);
+  const offset = searchParams["offset"] ?? "1";
+  const limit = searchParams["limit"] ?? "10";
 
-  useEffect(() => {
-    getMovies();
-  }, [getMovies]);
+  const start = (Number(offset) - 1) * Number(limit);
+  const end = start + Number(limit);
+
+  const entries = movies.slice(start, end);
 
   const isFavorite = (movie: Movie) =>
     favorites.some((favorite) => favorite.id === movie.id);
-
-  if (movies.length === 0) {
-    return <div className={styles.loading}>Loading...</div>;
-  }
 
   return (
     <main className={styles.main}>
@@ -46,20 +38,29 @@ export default function Home() {
         </Link>
       </div>
 
-      <div className={styles.moviesList}>
-        {movies.map((movie, index) => {
-          return (
-            <DisplayMovie
-              key={movie.id}
-              onFavoriteClick={
-                isFavorite(movie) ? removeFavorite : addFavoriteClick
-              }
-              movie={movie}
-              isFavorite={isFavorite(movie)}
-            />
-          );
-        })}
-      </div>
+      {movies.length === 0 ? (
+        <Loading />
+      ) : (
+        <div className={styles.moviesList}>
+          {entries.map((movie, index) => {
+            return (
+              <DisplayMovie
+                key={movie.id}
+                onFavoriteClick={
+                  isFavorite(movie) ? removeFavorite : addFavoriteClick
+                }
+                movie={movie}
+                isFavorite={isFavorite(movie)}
+              />
+            );
+          })}
+          <Pagination
+            totalItems={movies.length}
+            hasNextPage={end < movies.length}
+            hasPrevPage={start > 0}
+          />
+        </div>
+      )}
     </main>
   );
 }
