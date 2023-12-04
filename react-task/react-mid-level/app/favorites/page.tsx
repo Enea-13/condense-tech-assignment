@@ -20,7 +20,7 @@ const FavoritesPage = (): JSX.Element => {
       <div className={styles.moviesList}>
         {favorites.map((movie, index) => (
           <DisplayMovie
-            key={index}
+            key={movie.id}
             onFavoriteClick={removeFavorite}
             movie={movie}
             isFavorite={true}

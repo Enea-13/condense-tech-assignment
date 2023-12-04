@@ -1,3 +1,10 @@
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -5,7 +12,6 @@
   align-items: center;
 }
 
-/* Header */
 .header {
   display: flex;
   flex-direction: row;
@@ -35,12 +41,11 @@
   height: 480px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: start;
   align-items: flex-start;
   max-width: 100%;
 }
 
-/* Responsive styles for screens up to 640px wide */
 @media (max-width: 640px) {
   .header {
     width: 100%;
@@ -57,7 +62,6 @@
   }
 }
 
-/* Additional responsive styles for screens up to 480px wide */
 @media (max-width: 480px) {
   .header {
     margin: 0 10px;

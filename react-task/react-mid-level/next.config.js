@@ -4,9 +4,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "m.media-amazon.com",
+        hostname: "image.tmdb.org",
         port: "",
-        pathname: "/images/M/**",
+        pathname: "/t/p/w500/**",
+      },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        port: "",
+        pathname: "/wikipedia/en/**",
       },
     ],
   },

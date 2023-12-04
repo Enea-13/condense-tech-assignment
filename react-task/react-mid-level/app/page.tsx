@@ -7,19 +7,23 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import styles from "./page.module.css";
 
-const moviesApiUrl =
-  "https://my-json-server.typicode.com/horizon-code-academy/fake-movies-api/movies";
+// const moviesApiUrl =
+//   "https://my-json-server.typicode.com/horizon-code-academy/fake-movies-api/movies";
+const moviesApiUrl = "https://mttlioitimpeuzlwsgql.supabase.co/rest/v1/movies";
+const apiKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10dGxpb2l0aW1wZXV6bHdzZ3FsIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE0MjM3MDAsImV4cCI6MjAwNjk5OTcwMH0.yEpNXeO-cwzp_tBNeITxr2RRytwbcVnMlarJs0cpNYY";
 
 export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const { favorites, removeFavorite, addFavoriteClick } = useFavorites();
 
   const getMovies = useCallback(() => {
-    axios.get(moviesApiUrl).then((response) => {
-      const allMovies = response.data;
-
-      setMovies(allMovies);
-    });
+    axios
+      .get(moviesApiUrl, { headers: { apikey: apiKey } })
+      .then((response) => {
+        const allMovies = response.data;
+        setMovies(allMovies);
+      });
   }, []);
 
   useEffect(() => {
@@ -27,10 +31,10 @@ export default function Home() {
   }, [getMovies]);
 
   const isFavorite = (movie: Movie) =>
-    favorites.some((favorite) => favorite.Title === movie.Title);
+    favorites.some((favorite) => favorite.id === movie.id);
 
   if (movies.length === 0) {
-    return <p>Loading...</p>;
+    return <div className={styles.loading}>Loading...</div>;
   }
 
   return (
@@ -46,7 +50,7 @@ export default function Home() {
         {movies.map((movie, index) => {
           return (
             <DisplayMovie
-              key={index}
+              key={movie.id}
               onFavoriteClick={
                 isFavorite(movie) ? removeFavorite : addFavoriteClick
               }

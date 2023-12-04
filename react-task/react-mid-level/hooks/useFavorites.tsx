@@ -15,10 +15,9 @@ export const useFavorites = () => {
     getFavorites();
   }, [getFavorites]);
 
-  // ! normally I would use a unique ID to check if movie is already in favorites
   const addFavoriteClick = (movie: Movie): void => {
     // if movie is already in favorites, do not add it
-    if (favorites.some((favorite) => favorite.Title === movie.Title)) {
+    if (favorites.some((favorite) => favorite.id === movie.id)) {
       return;
     }
     setFavorites((prevState) => {
@@ -31,9 +30,7 @@ export const useFavorites = () => {
   };
 
   const removeFavorite = (movie: Movie): void => {
-    const index = favorites.findIndex(
-      (favorite) => favorite.Title === movie.Title
-    );
+    const index = favorites.findIndex((favorite) => favorite.id === movie.id);
     setFavorites((prevState) => {
       const newFavorites = [
         ...prevState.slice(0, index),
