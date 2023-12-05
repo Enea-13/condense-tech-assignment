@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "./Movie.module.css";
 
 export type Movie = {
+  node: any;
   id: number;
   created_at: string;
   title: string;

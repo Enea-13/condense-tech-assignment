@@ -18,8 +18,13 @@ export default function Home() {
   const { movies, setMoviesPerPage, setCurrentPage } = useMovies();
   const [searchResults, setSearchResults] = useState<typeof movies>([]);
 
+  const [searchPage, setSearchPage] = useState(0);
+  const [resultsPerPage, setResultsPerPage] = useState(10);
+
   const handleSearch = async (query: string) => {
     if (query === "") {
+      setSearchPage(0);
+      setResultsPerPage(10);
       setSearchResults([]);
       return;
     }
@@ -31,8 +36,15 @@ export default function Home() {
     setSearchResults(data.moviesCollection.edges);
   };
 
+  const paginateSearchResults = (results: typeof favorites) => {
+    return results.slice(
+      searchPage * resultsPerPage,
+      (searchPage + 1) * resultsPerPage
+    );
+  };
+
   const isFavorite = (movie: Movie) =>
-    favorites.some((favorite) => favorite.id === movie.id);
+    favorites.some((favorite) => favorite.id === Number(movie.id));
 
   return (
     <main className={styles.main}>
@@ -48,8 +60,9 @@ export default function Home() {
         <Loading />
       ) : (
         <div className={styles.moviesList}>
-          {searchResults.length > 0
-            ? searchResults.map((_movie) => {
+          {searchResults.length > 0 ? (
+            <>
+              {paginateSearchResults(searchResults).map((_movie) => {
                 const movie = _movie.node;
                 return (
                   <DisplayMovie
@@ -61,8 +74,20 @@ export default function Home() {
                     isFavorite={isFavorite(movie)}
                   />
                 );
-              })
-            : movies.map((movie) => (
+              })}
+              <div className={styles.paginationContainer}>
+                <LimitPerView onSelect={(value) => setResultsPerPage(value)} />
+                <Pagination
+                  hasNextPage={
+                    searchResults.length > (searchPage + 1) * resultsPerPage
+                  }
+                  setCurrentPage={setSearchPage}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              {movies.map((movie) => (
                 <DisplayMovie
                   key={movie.id}
                   onFavoriteClick={
@@ -72,10 +97,16 @@ export default function Home() {
                   isFavorite={isFavorite(movie)}
                 />
               ))}
-          <div className={styles.paginationContainer}>
-            <LimitPerView onSelect={(value) => setMoviesPerPage(value)} />
-            <Pagination hasNextPage={true} setCurrentPage={setCurrentPage} />
-          </div>
+
+              <div className={styles.paginationContainer}>
+                <LimitPerView onSelect={(value) => setMoviesPerPage(value)} />
+                <Pagination
+                  hasNextPage={true}
+                  setCurrentPage={setCurrentPage}
+                />
+              </div>
+            </>
+          )}
         </div>
       )}
     </main>
