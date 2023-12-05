@@ -46,3 +46,34 @@ body {
   right: -15px;
 }
 /* End of Notification styles*/
+
+
+/* Search bar styles */
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px 0 0 4px;
+  width: 230px;
+  outline: none;
+}
+
+.btn {
+  padding: 8px 16px;
+  background-color: #b0c0c8;
+  color: #fff;
+  border: 1px solid #b0c0c8;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn:hover {
+  background-color: #677278;
+  border-color: #636c71;
+}

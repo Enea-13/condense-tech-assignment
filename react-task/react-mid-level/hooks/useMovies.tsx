@@ -4,10 +4,8 @@ import { type Movie } from "@/components/Movie/Movie";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
-// !this goes to .env file
-const moviesApiUrl = "https://mttlioitimpeuzlwsgql.supabase.co/rest/v1/movies";
-const apiKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10dGxpb2l0aW1wZXV6bHdzZ3FsIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE0MjM3MDAsImV4cCI6MjAwNjk5OTcwMH0.yEpNXeO-cwzp_tBNeITxr2RRytwbcVnMlarJs0cpNYY";
+const moviesApiUrl = process.env.NEXT_PUBLIC_MOVIES_ENDPOINT as string;
+const apiKey = process.env.NEXT_PUBLIC_API_KEY as string;
 
 export function useMovies() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -16,6 +14,7 @@ export function useMovies() {
 
   const getMovies = useCallback(async () => {
     const offset = currentPage * moviesPerPage;
+
     axios
       .get(moviesApiUrl, {
         headers: { apikey: apiKey },

@@ -27,6 +27,14 @@ function DisplayMovie({
   movie,
   isFavorite,
 }: DisplayMovieProps) {
+  function parseGenres(input: string | string[]) {
+    if (typeof input === "string") {
+      return JSON.parse(input.replace(/\\/g, ""));
+    }
+
+    return input;
+  }
+
   return (
     <div className={styles.listItem}>
       <Image
@@ -43,7 +51,7 @@ function DisplayMovie({
           {movie.title} ({movie.year}){" "}
           <span className={styles.runtime}>{movie.runtime}min</span>
         </h2>
-        <p className={styles.genres}>{movie.genres.join(" | ")}</p>
+        <p className={styles.genres}>{parseGenres(movie.genres).join(" | ")}</p>
         <p className={styles.actors}>{movie.actors}</p>
         <p className={styles.description}>{movie.plot}</p>
       </div>
