@@ -1,8 +1,9 @@
 "use client";
 
-import Loading from "@/components/Loading";
 import DisplayMovie, { type Movie } from "@/components/Movie/Movie";
+import LimitPerView from "@/components/Pagination/LimitPerView";
 import Pagination from "@/components/Pagination/Pagination";
+import Loading from "@/components/common/Loading";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useMovies } from "@/hooks/useMovies";
 import Link from "next/link";
@@ -16,15 +17,7 @@ type SearchParamsProps = {
 
 export default function Home({ searchParams }: SearchParamsProps) {
   const { favorites, removeFavorite, addFavoriteClick } = useFavorites();
-  const { movies } = useMovies();
-
-  const offset = searchParams["offset"] ?? "1";
-  const limit = searchParams["limit"] ?? "10";
-
-  const start = (Number(offset) - 1) * Number(limit);
-  const end = start + Number(limit);
-
-  const entries = movies.slice(start, end);
+  const { movies, setMoviesPerPage, setCurrentPage } = useMovies();
 
   const isFavorite = (movie: Movie) =>
     favorites.some((favorite) => favorite.id === movie.id);
@@ -42,7 +35,7 @@ export default function Home({ searchParams }: SearchParamsProps) {
         <Loading />
       ) : (
         <div className={styles.moviesList}>
-          {entries.map((movie, index) => {
+          {movies.map((movie, index) => {
             return (
               <DisplayMovie
                 key={movie.id}
@@ -54,11 +47,14 @@ export default function Home({ searchParams }: SearchParamsProps) {
               />
             );
           })}
-          <Pagination
-            totalItems={movies.length}
-            hasNextPage={end < movies.length}
-            hasPrevPage={start > 0}
-          />
+          <div className={styles.paginationContainer}>
+            <LimitPerView onSelect={(value) => setMoviesPerPage(value)} />
+            <Pagination
+              hasNextPage={true}
+              hasPrevPage={true}
+              setCurrentPage={setCurrentPage}
+            />
+          </div>
         </div>
       )}
     </main>

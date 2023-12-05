@@ -1,13 +1,28 @@
 "use client";
 
-import Loading from "@/components/Loading";
 import DisplayMovie from "@/components/Movie/Movie";
+import LimitPerView from "@/components/Pagination/LimitPerView";
+import Pagination from "@/components/Pagination/Pagination";
+import Loading from "@/components/common/Loading";
 import { useFavorites } from "@/hooks/useFavorites";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import styles from "../page.module.css";
 
 const FavoritesPage = (): JSX.Element => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [moviesPerPage, setMoviesPerPage] = useState(10);
   const { favorites, removeFavorite } = useFavorites();
+  const [displayPerPage, setDisplayPerPage] = useState(favorites);
+
+  useEffect(() => {
+    setDisplayPerPage(
+      favorites.slice(
+        currentPage * moviesPerPage,
+        (currentPage + 1) * moviesPerPage
+      )
+    );
+  }, [favorites, currentPage, moviesPerPage]);
 
   return (
     <div className={styles.main}>
@@ -22,7 +37,7 @@ const FavoritesPage = (): JSX.Element => {
         <Loading />
       ) : (
         <div className={styles.moviesList}>
-          {favorites.map((movie, index) => (
+          {displayPerPage.map((movie, index) => (
             <DisplayMovie
               key={movie.id}
               onFavoriteClick={removeFavorite}
@@ -30,6 +45,17 @@ const FavoritesPage = (): JSX.Element => {
               isFavorite={true}
             />
           ))}
+
+          {favorites.length > moviesPerPage && (
+            <div className={styles.paginationContainer}>
+              <LimitPerView onSelect={(value) => setMoviesPerPage(value)} />
+              <Pagination
+                hasNextPage={true}
+                hasPrevPage={true}
+                setCurrentPage={setCurrentPage}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>

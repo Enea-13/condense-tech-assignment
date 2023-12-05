@@ -41,6 +41,15 @@
   max-width: 100%;
 }
 
+.paginationContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 200px;
+  margin: 0 auto;
+}
+
 @media (max-width: 640px) {
   .header {
     width: 100%;
@@ -54,6 +63,9 @@
   .favoritesLink {
     margin-right: 20px;
     margin-left: 20px;
+  }
+    .paginationContainer {
+    margin-top: 10px;
   }
 }
 
@@ -71,5 +83,9 @@
   .favoritesLink {
     margin-right: 5px;
     margin-left: 5px;
+  }
+
+    .paginationContainer {
+    margin-top: 5px;
   }
 }

@@ -1,25 +1,3 @@
-.paginationContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-bottom: 100px;
-  margin: 0 auto;
-}
-
-.limitPerView {
-  padding: 10px 20px;
-  height: 100%;
-  width: 150px;
-  background: rgb(132, 137, 140);
-  border-radius: 4px;
-  font-weight: 700;
-  color: #ffffff;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-}
-
 .navigationContainer {
   display: flex;
   flex-direction: row;
@@ -38,26 +16,64 @@
   cursor: pointer;
 }
 
+/* Dropdown styling */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownToggle {
+  padding: 10px;
+  height: 100%;
+  width: 50px;
+  background: rgb(132, 137, 140);
+  border-radius: 4px;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin: 0;
+  padding: 2px;
+  list-style: none;
+}
+
+.dropdownMenu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdownMenu li:hover {
+  background-color: #f8f9fa;
+}
+
 @media (max-width: 640px) {
-  .paginationContainer {
-    margin-top: 10px;
-  }
   .navigationContainer {
     margin-right: 20px;
   }
-  .limitPerView {
+  .dropdown {
     margin-left: 20px;
   }
 }
 @media (max-width: 480px) {
-  .paginationContainer {
-    margin-top: 5px;
-  }
   .navigationContainer {
     margin-right: 5px;
     margin-left: 5px;
   }
-  .limitPerView {
+  .dropdown {
     margin-right: 5px;
     margin-left: 5px;
   }
