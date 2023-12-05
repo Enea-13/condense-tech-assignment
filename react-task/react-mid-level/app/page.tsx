@@ -1,10 +1,10 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import DisplayMovie, { type Movie } from "@/components/Movie/Movie";
 import LimitPerView from "@/components/Pagination/LimitPerView";
 import Pagination from "@/components/Pagination/Pagination";
 import SearchBar from "@/components/SearchBar";
-import Loading from "@/components/common/Loading";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useMovies } from "@/hooks/useMovies";
 import graphqlClient, { SEARCH_MOVIES } from "@/lib/graphql-client";
@@ -76,7 +76,7 @@ export default function Home() {
                 );
               })}
               <div className={styles.paginationContainer}>
-                <LimitPerView onSelect={(value) => setResultsPerPage(value)} />
+                <LimitPerView onSelect={setResultsPerPage} />
                 <Pagination
                   hasNextPage={
                     searchResults.length > (searchPage + 1) * resultsPerPage
@@ -99,7 +99,7 @@ export default function Home() {
               ))}
 
               <div className={styles.paginationContainer}>
-                <LimitPerView onSelect={(value) => setMoviesPerPage(value)} />
+                <LimitPerView onSelect={setMoviesPerPage} />
                 <Pagination
                   hasNextPage={true}
                   setCurrentPage={setCurrentPage}

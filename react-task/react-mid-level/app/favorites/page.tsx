@@ -1,10 +1,10 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import DisplayMovie from "@/components/Movie/Movie";
 import LimitPerView from "@/components/Pagination/LimitPerView";
 import Pagination from "@/components/Pagination/Pagination";
 import SearchBar from "@/components/SearchBar";
-import Loading from "@/components/common/Loading";
 import { useFavorites } from "@/hooks/useFavorites";
 import Link from "next/link";
 import { useState } from "react";
@@ -66,7 +66,7 @@ const FavoritesPage = (): JSX.Element => {
 
           {toRender.length > moviesPerPage && (
             <div className={styles.paginationContainer}>
-              <LimitPerView onSelect={(value) => setMoviesPerPage(value)} />
+              <LimitPerView onSelect={setMoviesPerPage} />
               <Pagination
                 hasNextPage={
                   toRender.length > (currentPage + 1) * moviesPerPage
