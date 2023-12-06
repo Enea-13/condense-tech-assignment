@@ -46,6 +46,26 @@ export default function Home() {
   const isFavorite = (movie: Movie) =>
     favorites.some((favorite) => favorite.id === Number(movie.id));
 
+  const handleFavoriteClick = (movie: Movie) =>
+    isFavorite(movie) ? removeFavorite : addFavoriteClick;
+
+  const isSearchMode = () => searchResults.length > 0;
+
+  const handleLimitPerViewSelect = () =>
+    isSearchMode() ? setResultsPerPage : setMoviesPerPage;
+
+  const handlePageChange = () =>
+    isSearchMode() ? setSearchPage : setCurrentPage;
+
+  const hasNextPage = () =>
+    isSearchMode()
+      ? searchPage + 1 < Math.ceil(searchResults.length / resultsPerPage)
+      : true;
+
+  const recordsToDisplay = isSearchMode()
+    ? paginateSearchResults(searchResults)
+    : movies;
+
   return (
     <main className={styles.main}>
       <div className={styles.header}>
@@ -60,53 +80,24 @@ export default function Home() {
         <Loading />
       ) : (
         <div className={styles.moviesList}>
-          {searchResults.length > 0 ? (
-            <>
-              {paginateSearchResults(searchResults).map((_movie) => {
-                const movie = _movie.node;
-                return (
-                  <DisplayMovie
-                    key={movie.id}
-                    onFavoriteClick={
-                      isFavorite(movie) ? removeFavorite : addFavoriteClick
-                    }
-                    movie={movie}
-                    isFavorite={isFavorite(movie)}
-                  />
-                );
-              })}
-              <div className={styles.paginationContainer}>
-                <LimitPerView onSelect={setResultsPerPage} />
-                <Pagination
-                  hasNextPage={
-                    searchResults.length > (searchPage + 1) * resultsPerPage
-                  }
-                  setCurrentPage={setSearchPage}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              {movies.map((movie) => (
-                <DisplayMovie
-                  key={movie.id}
-                  onFavoriteClick={
-                    isFavorite(movie) ? removeFavorite : addFavoriteClick
-                  }
-                  movie={movie}
-                  isFavorite={isFavorite(movie)}
-                />
-              ))}
-
-              <div className={styles.paginationContainer}>
-                <LimitPerView onSelect={setMoviesPerPage} />
-                <Pagination
-                  hasNextPage={true}
-                  setCurrentPage={setCurrentPage}
-                />
-              </div>
-            </>
-          )}
+          {recordsToDisplay.map((_movie) => {
+            const movie = isSearchMode() ? _movie.node : _movie;
+            return (
+              <DisplayMovie
+                key={movie.id}
+                onFavoriteClick={handleFavoriteClick(movie)}
+                movie={movie}
+                isFavorite={isFavorite(movie)}
+              />
+            );
+          })}
+          <div className={styles.paginationContainer}>
+            <LimitPerView onSelect={handleLimitPerViewSelect()} />
+            <Pagination
+              hasNextPage={hasNextPage()}
+              setCurrentPage={handlePageChange()}
+            />
+          </div>
         </div>
       )}
     </main>
